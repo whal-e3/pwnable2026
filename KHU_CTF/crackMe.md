@@ -13,12 +13,26 @@ CrackMe: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked
 
 # Solution
 ---
+ida pseudo code
 ```c
-...
-char user_input[264]; // [rsp+0h] [rbp-118h] BYREF
-...
-memset(user_input, 0, 256uLL);
+__int64 __fastcall main(int a1, char **a2, char **a3)
+{
+  char user_input[264]; // [rsp+0h] [rbp-118h] BYREF
+  unsigned __int64 v5; // [rsp+108h] [rbp-10h]
+
+  v5 = __readfsqword(0x28u);
+  memset(user_input, 0, 256uLL);
+  __printf_chk(1LL, "input : ", a3);
+  fflush(stdout);
+  user_input[(int)(read(0, user_input, 256uLL) - 1)] = 0;
+  if ( (unsigned int)func_in_interest(user_input) )
+    puts("correct");
+  else
+    puts("wrong");
+  return 0LL;
+}
 ```
+
 
 
 # 🚩flag
